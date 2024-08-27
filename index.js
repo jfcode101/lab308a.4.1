@@ -21,6 +21,30 @@ const API_KEY = "";
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
+async function initialLoad() {
+  try {
+    const resp = await fetch(
+      "https://api.thecatapi.com/v1/breeds?api_key=live_MzAYT4pSEWW1e4j9N0FyktT0Fp2os2AZ4YHYfSwOW707XYQIntZgdAEr2stUmVeP"
+    );
+    const breeds = await resp.json();
+    const selectBreed = document.querySelector("#breedSelect");
+    breedSelect.innerHTML = "";
+
+    // loop over breeds to assign the option
+    breeds.forEach((breed) => {
+      //create the option
+      const option = document.createElement("option");
+      option.value = breed.id;
+      option.textContent = breed.name;
+      breedSelect.appendChild(option);
+    });
+
+    //
+    //
+  } catch (err) {
+    console.log("Error — could not fetch breeds", err);
+  }
+}
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -109,3 +133,5 @@ export async function favourite(imgId) {
  * - Test other breeds as well. Not every breed has the same data available, so
  *   your code should account for this.
  */
+
+initialLoad();
