@@ -1,5 +1,5 @@
 // import * as Carousel from "./Carousel.js";
-// import axios from "axios";
+import axios from "axios";
 
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
@@ -21,7 +21,32 @@ const API_KEY = "";
  *  - Each option should display text equal to the name of the breed.
  * This function should execute immediately.
  */
-console.log("Hello")
+async function initialLoad() {
+  try {
+    // response
+    const response = await fetch(
+      "https://api.thecatapi.com/v1/breeds?live_MzAYT4pSEWW1e4j9N0FyktT0Fp2os2AZ4YHYfSwOW707XYQIntZgdAEr2stUmVeP"
+    );
+    const breeds = await response.json();
+    const breedSelect = document.getElementById("breedSelect");
+    //  empty the select
+    breedSelect.innerHTML = "";
+
+    // for each breed create an option
+    breeds.forEach((breed) => {
+      const option = document.createElement("option");
+      option.value = breed.id;
+      console.log(breed.id);
+      option.textContent = breed.name;
+      breedSelect.appendChild(option);
+      console.log(breed);
+    });
+  } catch (err) {
+    console.error("Error — unable to fetch breeds", err);
+  }
+}
+
+initialLoad();
 /**
  * 2. Create an event handler for breedSelect that does the following:
  * - Retrieve information on the selected breed from the cat API using fetch().
@@ -109,5 +134,3 @@ export async function favourite(imgId) {
  * - Test other breeds as well. Not every breed has the same data available, so
  *   your code should account for this.
  */
-
-console.log("hello!");
